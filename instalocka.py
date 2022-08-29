@@ -1,6 +1,7 @@
 #! /usr/bin/python3
 
 import os
+import time
 from argparse import ArgumentParser
 
 import pyautogui
@@ -70,6 +71,9 @@ def main() -> None:
 
     print(f"Watching for {agent.title()}...")
     while True:
+        # Delay so our CPU doesn't cry
+        time.sleep(0.01)
+
         try:
             click_agent(agent)
             lock_in()

@@ -2,6 +2,7 @@
 
 import os
 import sys
+import time
 
 from PyQt6.QtCore import QObject, QRunnable, QThreadPool, pyqtSlot, pyqtSignal
 from PyQt6.QtGui import QCloseEvent
@@ -29,6 +30,9 @@ class InstalockWorker(QRunnable):
     @pyqtSlot()
     def run(self) -> None:
         while True:
+            # Delay so our CPU doesn't cry uwu
+            time.sleep(0.01)
+
             if self._stopped:
                 return
 
