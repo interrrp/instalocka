@@ -6,6 +6,8 @@ from argparse import ArgumentParser
 
 import pyautogui
 
+import utils
+
 pyautogui.PAUSE = 0.01
 
 
@@ -27,7 +29,7 @@ def click_agent(agent: str) -> None:
     """Aim and click at the agent's avatar."""
 
     # Validate the avatar image, if it actually exists
-    avatar_path = f"assets/avatars/{agent}.png"
+    avatar_path = f"assets/avatars/{utils.get_screen_size_str()}/{agent}.png"
     if not os.path.exists(avatar_path):
         raise ValueError(f"Avatar image {avatar_path} does not exist")
 
@@ -49,7 +51,9 @@ def lock_in() -> None:
     """Click the lock in button."""
 
     # Locate the button
-    lock_in_button_pos = pyautogui.locateOnScreen("assets/lock_in.png", grayscale=True, confidence=0.8)
+    lock_in_button_pos = pyautogui.locateOnScreen(
+        f"assets/lock_in/{utils.get_screen_size_str()}.png", grayscale=True, confidence=0.8
+    )
 
     # Was it actually found?
     if not lock_in_button_pos:
@@ -68,6 +72,9 @@ def lock_in() -> None:
 def main() -> None:
     args = parse_args()
     agent = args["agent"]
+
+    if not os.path.exists(f"assets/avatars/{utils.get_screen_size_str()}"):
+        raise ValueError(f"Your resolution is not supported ({utils.get_screen_size_str()})")
 
     print(f"Watching for {agent.title()}...")
     while True:

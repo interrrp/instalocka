@@ -6,8 +6,9 @@ import time
 
 from PyQt6.QtCore import QObject, QRunnable, QThreadPool, pyqtSlot, pyqtSignal
 from PyQt6.QtGui import QCloseEvent
-from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QComboBox, QCheckBox
+from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QComboBox, QCheckBox, QMessageBox
 
+import utils
 import instalocka
 
 
@@ -65,7 +66,7 @@ class MainWindow(QMainWindow):
         # Set up the agent select combo box based on the available avatars
         self.agent_select_combo_box = QComboBox()
         self.agent_select_combo_box.currentTextChanged.connect(self.on_agent_select_combo_box_changed)
-        for file in os.listdir("assets/avatars"):
+        for file in os.listdir(f"assets/avatars/{utils.get_screen_size_str()}"):
             if file.endswith(".png"):
                 self.agent_select_combo_box.addItem(file.replace(".png", "").title())
 
@@ -116,6 +117,14 @@ class MainWindow(QMainWindow):
 
 
 app = QApplication(sys.argv[1:])
+
+if not os.path.exists(f"assets/avatars/{utils.get_screen_size_str()}"):
+    error_box = QMessageBox()
+    error_box.setIcon(QMessageBox.Icon.Critical)
+    error_box.setWindowTitle("Resolution not supported")
+    error_box.setText(f"Your monitor resolution ({utils.get_screen_size_str()}) is currently not supported.")
+    error_box.exec()
+    sys.exit(1)
 
 window = MainWindow()
 window.show()
