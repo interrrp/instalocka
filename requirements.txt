@@ -1,6 +1,7 @@
 # Core/CLI
 pyautogui
 Pillow
+opencv-python
 
 # GUI
 PyQt6
