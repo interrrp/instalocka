@@ -1,0 +1,6 @@
+# Core/CLI
+pyautogui
+Pillow
+
+# GUI
+PyQt6
