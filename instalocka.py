@@ -34,7 +34,7 @@ def click_agent(agent: str) -> None:
         raise ValueError(f"Avatar image {avatar_path} does not exist")
 
     # Locate the avatar on the screen
-    avatar_pos = pyautogui.locateOnScreen(avatar_path, grayscale=True, confidence=0.8)
+    avatar_pos = pyautogui.locateOnScreen(avatar_path, grayscale=True, confidence=0.5)
 
     # Was it actually found?
     if not avatar_pos:
@@ -52,7 +52,7 @@ def lock_in() -> None:
 
     # Locate the button
     lock_in_button_pos = pyautogui.locateOnScreen(
-        f"assets/lock_in/{utils.get_screen_size_str()}.png", grayscale=True, confidence=0.8
+        f"assets/lock_in/{utils.get_screen_size_str()}.png", grayscale=True, confidence=0.5
     )
 
     # Was it actually found?
