@@ -102,7 +102,7 @@ class MainWindow(QMainWindow):
 
     def on_lock(self) -> None:
         """Called when we lock in!"""
-        pass
+        self.toggle_checkbox.setChecked(False)
 
     def closeEvent(self, event: QCloseEvent) -> None:
         """Called when we're about to exit."""
