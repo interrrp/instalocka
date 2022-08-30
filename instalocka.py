@@ -8,8 +8,6 @@ import pyautogui
 
 import utils
 
-pyautogui.PAUSE = 0.01
-
 
 class ImageNotFoundException(Exception):
     pass
@@ -75,6 +73,8 @@ def lock_in() -> None:
 
 
 def main() -> None:
+    pyautogui.PAUSE = 0.01
+
     args = parse_args()
     agent = args["agent"]
 

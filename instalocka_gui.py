@@ -4,6 +4,7 @@ import os
 import sys
 import time
 
+import pyautogui
 from PyQt6.QtCore import QObject, QRunnable, QThreadPool, pyqtSlot, pyqtSignal
 from PyQt6.QtGui import QCloseEvent, QIcon
 from PyQt6.QtWidgets import (
@@ -40,6 +41,8 @@ class InstalockWorker(QRunnable):
 
     @pyqtSlot()
     def run(self) -> None:
+        pyautogui.PAUSE = 0.01
+
         while True:
             # Delay so our CPU doesn't cry uwu
             time.sleep(0.01)
@@ -84,7 +87,6 @@ class MainWindow(QMainWindow):
 
         # This toggle checkbox toggles the instalock or something
         self.toggle_checkbox = QCheckBox("Instalocking")
-        self.toggle_checkbox.setChecked(True)
         self.toggle_checkbox.stateChanged.connect(self.on_toggle_checkbox_toggle)
         self.instalock_worker.enabled = self.toggle_checkbox.isChecked()
 
