@@ -5,3 +5,4 @@ opencv-python
 
 # GUI
 PyQt6
+qt-material

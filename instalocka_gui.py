@@ -5,8 +5,9 @@ import sys
 import time
 
 from PyQt6.QtCore import QObject, QRunnable, QThreadPool, pyqtSlot, pyqtSignal
-from PyQt6.QtGui import QCloseEvent
+from PyQt6.QtGui import QCloseEvent, QIcon
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QComboBox, QCheckBox, QMessageBox
+import qt_material
 
 import utils
 import instalocka
@@ -68,7 +69,9 @@ class MainWindow(QMainWindow):
         self.agent_select_combo_box.currentTextChanged.connect(self.on_agent_select_combo_box_changed)
         for file in os.listdir(f"assets/avatars/{utils.get_screen_size_str()}"):
             if file.endswith(".png"):
-                self.agent_select_combo_box.addItem(file.replace(".png", "").title())
+                self.agent_select_combo_box.addItem(
+                    QIcon(f"assets/avatars/{utils.get_screen_size_str()}/{file}"), file.replace(".png", "").title()
+                )
 
         # This toggle checkbox toggles the instalock or something
         self.toggle_checkbox = QCheckBox("Instalocking")
@@ -117,6 +120,7 @@ class MainWindow(QMainWindow):
 
 
 app = QApplication(sys.argv[1:])
+qt_material.apply_stylesheet(app, theme="dark_teal.xml")
 
 if not os.path.exists(f"assets/avatars/{utils.get_screen_size_str()}"):
     error_box = QMessageBox()
