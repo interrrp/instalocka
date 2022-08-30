@@ -6,7 +6,16 @@ import time
 
 from PyQt6.QtCore import QObject, QRunnable, QThreadPool, pyqtSlot, pyqtSignal
 from PyQt6.QtGui import QCloseEvent, QIcon
-from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QComboBox, QCheckBox, QMessageBox
+from PyQt6.QtWidgets import (
+    QApplication,
+    QMainWindow,
+    QWidget,
+    QVBoxLayout,
+    QHBoxLayout,
+    QComboBox,
+    QCheckBox,
+    QMessageBox,
+)
 import qt_material
 
 import utils
@@ -20,10 +29,10 @@ class InstalockSignals(QObject):
 class InstalockWorker(QRunnable):
     """The worker for the instalocking thread."""
 
-    def __init__(self, agent: str) -> None:
+    def __init__(self) -> None:
         super().__init__()
 
-        self.agent = agent
+        self.agent = ""
         self.enabled = False
         self.signals = InstalockSignals()
 
@@ -58,8 +67,8 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("Instalocka GUI")
 
-        self.setup_ui()
         self.setup_instalock_pool_and_worker()
+        self.setup_ui()
 
     def setup_ui(self) -> None:
         """Set up our UI."""
@@ -75,24 +84,34 @@ class MainWindow(QMainWindow):
 
         # This toggle checkbox toggles the instalock or something
         self.toggle_checkbox = QCheckBox("Instalocking")
+        self.toggle_checkbox.setChecked(True)
         self.toggle_checkbox.stateChanged.connect(self.on_toggle_checkbox_toggle)
+        self.instalock_worker.enabled = self.toggle_checkbox.isChecked()
 
-        # Setup our VBoxLayout, we will add our widgets here
-        layout = QVBoxLayout()
-        layout.addWidget(self.agent_select_combo_box)
-        layout.addWidget(self.toggle_checkbox)
+        # Toggle whether to turn off instalocking when we lock
+        self.turn_off_when_locked_checkbox = QCheckBox("Turn off when locked")
 
-        # Create a plain widget with our layout
-        widget = QWidget()
-        widget.setLayout(layout)
+        # The options are in an HBoxLayout, just looks neat
+        options_layout = QHBoxLayout()
+        options_layout.addWidget(self.toggle_checkbox)
+        options_layout.addWidget(self.turn_off_when_locked_checkbox)
+        options_widget = QWidget()
+        options_widget.setLayout(options_layout)
 
-        self.setCentralWidget(widget)
+        # Setup our main VBoxLayout, we will add all our widgets here
+        main_layout = QVBoxLayout()
+        main_layout.addWidget(self.agent_select_combo_box)
+        main_layout.addWidget(options_widget)
+        main_widget = QWidget()
+        main_widget.setLayout(main_layout)
+
+        self.setCentralWidget(main_widget)
 
     def setup_instalock_pool_and_worker(self) -> None:
         """Set up the instalock thread pool and worker."""
 
         self.thread_pool = QThreadPool()
-        self.instalock_worker = InstalockWorker(self.agent_select_combo_box.currentText())
+        self.instalock_worker = InstalockWorker()
         self.instalock_worker.signals.locked.connect(self.on_lock)
         self.thread_pool.start(self.instalock_worker)
 
@@ -102,15 +121,13 @@ class MainWindow(QMainWindow):
 
     def on_agent_select_combo_box_changed(self) -> None:
         """Called when the agent select combo box changed."""
-
-        if not hasattr(self, "instalock_worker"):
-            return
-
         self.instalock_worker.agent = self.agent_select_combo_box.currentText()
 
     def on_lock(self) -> None:
         """Called when we lock in!"""
-        self.toggle_checkbox.setChecked(False)
+
+        if self.turn_off_when_locked_checkbox.isChecked():
+            self.toggle_checkbox.setChecked(False)
 
     def closeEvent(self, event: QCloseEvent) -> None:
         """Called when we're about to exit."""

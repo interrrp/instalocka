@@ -40,6 +40,11 @@ def click_agent(agent: str) -> None:
     if not avatar_pos:
         raise ImageNotFoundException(f"The avatar for agent {agent.title()} was not found on the screen")
 
+    # If it's not at the bottom 1/4 of the screen, it's not the agent select menu
+    screen_height = utils.get_screen_size()[1]
+    if avatar_pos.top < (screen_height - screen_height / 4):
+        return
+
     # Get the center of the avatar to prevent the chance of clicking on the wrong thing
     avatar_pos_center = pyautogui.center(avatar_pos)
 
