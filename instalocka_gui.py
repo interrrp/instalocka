@@ -50,7 +50,8 @@ class InstalockWorker(QRunnable):
             if self._stopped:
                 return
 
-            if not self.enabled:
+            # If we're not enabled or we're not focusing on VALORANT, skip iteration for performance
+            if not self.enabled or not utils.is_focused_on_valorant():
                 continue
 
             try:

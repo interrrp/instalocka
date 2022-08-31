@@ -86,6 +86,10 @@ def main() -> None:
         # Delay so our CPU doesn't cry
         time.sleep(0.01)
 
+        # Check if we are actually in the VALORANT window
+        if utils.get_active_window_title() != "VALORANT":
+            continue
+
         try:
             click_agent(agent)
             lock_in()
