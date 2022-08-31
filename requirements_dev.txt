@@ -1,0 +1,10 @@
+# Stubs
+git+https://github.com/python-qt-tools/PyQt6-stubs
+
+# Build process
+nuitka
+
+# Utility
+flake8
+black
+mypy
