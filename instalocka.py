@@ -69,12 +69,11 @@ def lock_in() -> None:
     # I know I could've used pyautogui.click, but the click doesn't register
     pyautogui.moveTo(lock_in_button_pos_center)
     pyautogui.mouseDown()
-    time.sleep(0.01)
     pyautogui.mouseUp()
 
 
 def main() -> None:
-    pyautogui.PAUSE = 0
+    pyautogui.PAUSE = 0.01
 
     args = parse_args()
     agent = args["agent"]
