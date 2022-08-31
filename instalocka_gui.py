@@ -70,6 +70,7 @@ class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
         self.setWindowTitle("Instalocka GUI")
+        self.setWindowIcon(QIcon("assets/instalocka.ico"))
 
         self.setup_instalock_pool_and_worker()
         self.setup_ui()
