@@ -1,4 +1,4 @@
-# Instalocka - Insta-lock your favorite VALORANT agent!
+# 🔒 Instalocka - Lock at the speed of light!
 
 ## 🔃 Prerequisites
 

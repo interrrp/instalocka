@@ -16,7 +16,7 @@ class ImageNotFoundException(Exception):
 def parse_args() -> dict:
     """Parse command-line arguments into a dictionary using :code:`ArgumentParser`."""
 
-    parser = ArgumentParser(prog="instalocka", description="Insta-lock your favorite VALORANT agent!")
+    parser = ArgumentParser(prog="instalocka", description="Lock at the speed of light!")
     parser.add_argument("agent", help="The agent to instalock")
 
     # Parse the arguments, then "turn" it into a dictionary using __dict__
