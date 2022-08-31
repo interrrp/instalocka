@@ -73,7 +73,7 @@ def lock_in() -> None:
 
 
 def main() -> None:
-    pyautogui.PAUSE = 0.01
+    pyautogui.PAUSE = 0
 
     args = parse_args()
     agent = args["agent"]

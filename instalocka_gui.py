@@ -41,7 +41,7 @@ class InstalockWorker(QRunnable):
 
     @pyqtSlot()
     def run(self) -> None:
-        pyautogui.PAUSE = 0.01
+        pyautogui.PAUSE = 0
 
         while True:
             # Delay so our CPU doesn't cry uwu
